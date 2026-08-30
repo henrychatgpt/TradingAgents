@@ -173,6 +173,10 @@ class OpenAIClient(BaseLLMClient):
         # which can have transient 503 availability hiccups.
         if self.provider != "openai" and self.provider != "deepseek":
             llm_kwargs.setdefault("max_retries", 5)
+            # Stream long generations: opencode-go's gateway drops idle
+            # non-streaming connections at ~6min, killing GLM-5.3 reasoning
+            # calls that think for minutes before emitting content.
+            llm_kwargs.setdefault("streaming", True)
 
         # DeepSeek's thinking-mode quirks live in their own subclass so the
         # base NormalizedChatOpenAI stays free of provider-specific branches.
