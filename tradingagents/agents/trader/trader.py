@@ -7,12 +7,8 @@ import functools
 from langchain_core.messages import AIMessage
 
 from tradingagents.agents.schemas import TraderProposal, render_trader_proposal
-from tradingagents.agents.utils.agent_utils import (
-    get_instrument_context_from_state,
-    get_language_instruction,
-)
+from tradingagents.agents.utils.agent_utils import build_instrument_context
 from tradingagents.agents.utils.structured import (
-    NO_EXTERNAL_TOOLS,
     bind_structured,
     invoke_structured_or_freetext,
 )
@@ -23,8 +19,9 @@ def create_trader(llm):
 
     def trader_node(state, name):
         company_name = state["company_of_interest"]
-        instrument_context = get_instrument_context_from_state(state)
+        instrument_context = build_instrument_context(company_name)
         investment_plan = state["investment_plan"]
+        price_fact_sheet = state.get("price_fact_sheet", "")
 
         messages = [
             {
@@ -32,14 +29,13 @@ def create_trader(llm):
                 "content": (
                     "You are a trading agent analyzing market data to make investment decisions. "
                     "Based on your analysis, provide a specific recommendation to buy, sell, or hold. "
-                    "Anchor your reasoning in the analysts' reports and the research plan. "
-                    + NO_EXTERNAL_TOOLS
-                    + get_language_instruction()
+                    "Anchor your reasoning in the analysts' reports and the research plan."
                 ),
             },
             {
                 "role": "user",
                 "content": (
+                    f"{price_fact_sheet}\n\n"
                     f"Based on a comprehensive analysis by a team of analysts, here is an investment "
                     f"plan tailored for {company_name}. {instrument_context} This plan incorporates "
                     f"insights from current technical market trends, macroeconomic indicators, and "

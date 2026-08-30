@@ -19,8 +19,7 @@ all three agents log the same warnings when fallback fires.
 from __future__ import annotations
 
 import logging
-from collections.abc import Callable
-from typing import Any, TypeVar
+from typing import Any, Callable, Optional, TypeVar
 
 from pydantic import BaseModel
 
@@ -28,18 +27,8 @@ logger = logging.getLogger(__name__)
 
 T = TypeVar("T", bound=BaseModel)
 
-# Schema-only structured output binds exactly one tool (the schema itself), so a
-# model that reaches for a search tool emits an unknown tool call and the whole
-# structured attempt is discarded for a free-text retry. Agents on this path
-# state the constraint explicitly rather than relying on the binding alone
-# (#1130).
-NO_EXTERNAL_TOOLS = (
-    "Use only the evidence provided in this prompt. Do not call external tools "
-    "or search the web; if something is missing, say so explicitly."
-)
 
-
-def bind_structured(llm: Any, schema: type[T], agent_name: str) -> Any | None:
+def bind_structured(llm: Any, schema: type[T], agent_name: str) -> Optional[Any]:
     """Return ``llm.with_structured_output(schema)`` or ``None`` if unsupported.
 
     Logs a warning when the binding fails so the user understands the agent
@@ -57,7 +46,7 @@ def bind_structured(llm: Any, schema: type[T], agent_name: str) -> Any | None:
 
 
 def invoke_structured_or_freetext(
-    structured_llm: Any | None,
+    structured_llm: Optional[Any],
     plain_llm: Any,
     prompt: Any,
     render: Callable[[T], str],
@@ -73,11 +62,6 @@ def invoke_structured_or_freetext(
     if structured_llm is not None:
         try:
             result = structured_llm.invoke(prompt)
-            if result is None:
-                # A thinking model can answer in plain text instead of calling
-                # the tool, leaving the parser with nothing to return. Treat it
-                # as a structured miss and fall back, with a clear reason.
-                raise ValueError("structured output returned no parsed result")
             return render(result)
         except Exception as exc:
             logger.warning(

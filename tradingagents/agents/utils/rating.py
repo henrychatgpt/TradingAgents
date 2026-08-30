@@ -12,9 +12,11 @@ Centralising it here avoids drift between those call sites.
 from __future__ import annotations
 
 import re
+from typing import Tuple
+
 
 # Canonical, ordered 5-tier scale (most bullish to most bearish).
-RATINGS_5_TIER: tuple[str, ...] = (
+RATINGS_5_TIER: Tuple[str, ...] = (
     "Buy", "Overweight", "Hold", "Underweight", "Sell",
 )
 

@@ -1,6 +1,6 @@
-import warnings
 from abc import ABC, abstractmethod
-from typing import Any
+from typing import Any, Optional
+import warnings
 
 
 def normalize_content(response):
@@ -25,7 +25,7 @@ def normalize_content(response):
 class BaseLLMClient(ABC):
     """Abstract base class for LLM clients."""
 
-    def __init__(self, model: str, base_url: str | None = None, **kwargs):
+    def __init__(self, model: str, base_url: Optional[str] = None, **kwargs):
         self.model = model
         self.base_url = base_url
         self.kwargs = kwargs

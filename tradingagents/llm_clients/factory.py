@@ -1,11 +1,17 @@
+from typing import Optional
 
 from .base_client import BaseLLMClient
+
+# Providers that use the OpenAI-compatible chat completions API
+_OPENAI_COMPATIBLE = (
+    "openai", "xai", "deepseek", "qwen", "opencode-go", "ollama", "openrouter",
+)
 
 
 def create_llm_client(
     provider: str,
     model: str,
-    base_url: str | None = None,
+    base_url: Optional[str] = None,
     **kwargs,
 ) -> BaseLLMClient:
     """Create an LLM client for the specified provider.
@@ -28,9 +34,10 @@ def create_llm_client(
     """
     provider_lower = provider.lower()
 
-    # Native (non-OpenAI) APIs are matched first so their string check doesn't
-    # import the OpenAI client. Everything else is OpenAI-compatible and routes
-    # through the provider registry (single source of truth).
+    if provider_lower in _OPENAI_COMPATIBLE:
+        from .openai_client import OpenAIClient
+        return OpenAIClient(model, base_url, provider=provider_lower, **kwargs)
+
     if provider_lower == "anthropic":
         from .anthropic_client import AnthropicClient
         return AnthropicClient(model, base_url, **kwargs)
@@ -42,13 +49,5 @@ def create_llm_client(
     if provider_lower == "azure":
         from .azure_client import AzureOpenAIClient
         return AzureOpenAIClient(model, base_url, **kwargs)
-
-    if provider_lower == "bedrock":
-        from .bedrock_client import BedrockClient
-        return BedrockClient(model, base_url, **kwargs)
-
-    from .openai_client import OpenAIClient, is_openai_compatible
-    if is_openai_compatible(provider_lower):
-        return OpenAIClient(model, base_url, provider=provider_lower, **kwargs)
 
     raise ValueError(f"Unsupported LLM provider: {provider}")

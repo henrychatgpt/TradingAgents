@@ -1,7 +1,6 @@
 from typing import Annotated
-
-from langgraph.graph import MessagesState
 from typing_extensions import TypedDict
+from langgraph.graph import MessagesState
 
 
 # Researcher team state
@@ -46,15 +45,13 @@ class RiskDebateState(TypedDict):
 
 class AgentState(MessagesState):
     company_of_interest: Annotated[str, "Company that we are interested in trading"]
-    asset_type: Annotated[str, "Asset type under analysis such as stock or crypto"]
-    instrument_context: Annotated[str, "Deterministic ticker identity resolved at run start"]
     trade_date: Annotated[str, "What date we are trading at"]
 
     sender: Annotated[str, "Agent that sent this message"]
 
     # research step
     market_report: Annotated[str, "Report from the Market Analyst"]
-    sentiment_report: Annotated[str, "Report from the Sentiment Analyst"]
+    sentiment_report: Annotated[str, "Report from the Social Media Analyst"]
     news_report: Annotated[
         str, "Report from the News Researcher of current world affairs"
     ]
@@ -74,3 +71,4 @@ class AgentState(MessagesState):
     ]
     final_trade_decision: Annotated[str, "Final decision made by the Risk Analysts"]
     past_context: Annotated[str, "Memory log context injected at run start (same-ticker decisions + cross-ticker lessons)"]
+    price_fact_sheet: Annotated[str, "Immutable verified price data extracted after analysts complete. Prepended to all downstream agent prompts to prevent price corruption."]

@@ -1,7 +1,5 @@
 from datetime import datetime
-
-from .alpha_vantage_common import _filter_csv_by_date_range, _make_api_request
-
+from .alpha_vantage_common import _make_api_request, _filter_csv_by_date_range
 
 def get_stock(
     symbol: str,
