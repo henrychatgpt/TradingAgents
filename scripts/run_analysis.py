@@ -80,6 +80,7 @@ def main():
 
     for attempt, (provider, deep, quick) in enumerate([
         (primary_provider, primary_deep, primary_quick),
+        (primary_provider, primary_deep, primary_quick),  # retry: transient blips
         (fallback_provider, fallback_deep, fallback_quick),
     ], 1):
         try:
@@ -94,7 +95,7 @@ def main():
         except Exception as e:
             err_str = str(e)
             log(f"Attempt {attempt} failed: {type(e).__name__}: {err_str[:200]}")
-            if attempt == 1 and (
+            if attempt in (1, 2) and (
                 "503" in err_str or "429" in err_str
                 or "Error code: 500" in err_str or "Error code: 502" in err_str
                 or "Error code: 504" in err_str
