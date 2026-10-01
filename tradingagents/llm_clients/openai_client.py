@@ -1,4 +1,5 @@
 import os
+import time
 from typing import Any, Optional
 
 from langchain_core.messages import AIMessage
@@ -177,6 +178,12 @@ class OpenAIClient(BaseLLMClient):
             # non-streaming connections at ~6min, killing GLM-5.3 reasoning
             # calls that think for minutes before emitting content.
             llm_kwargs.setdefault("streaming", True)
+            # OpenCode relay requires session-affinity routing (~2026-09):
+            # 400 MissingSessionID without this header.
+            llm_kwargs.setdefault(
+                "default_headers",
+                {"x-opencode-session": f"ta-{os.getpid()}-{int(time.time())}"},
+            )
 
         # DeepSeek's thinking-mode quirks live in their own subclass so the
         # base NormalizedChatOpenAI stays free of provider-specific branches.
