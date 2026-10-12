@@ -19,3 +19,18 @@ Execution and tripwires: take a partial into the $165 gate if filled on weakness
 
 <!-- ENTRY_END -->
 
+[2026-09-30 | MU | Overweight | pending]
+
+DECISION:
+**Rating**: Overweight
+
+**Executive Summary**: Do not initiate at $1,097.39, just below twice-rejected resistance at $1,108.72. Stage entries: first tranche (2–3% of portfolio, half target weight) toward $1,035–$1,055; second tranche at the 50-day SMA (~$951.59) only if gross margins and receivables data confirm trend. Hard invalidation: a close below the 30-day low at $887.61 exits the core position. Time horizon: through the December earnings catalyst, 3–6 months.
+
+**Investment Thesis**: The constructive evidence is verifiable and dominant: quarterly revenue of $41.5B (~4.5x YoY), 84.5% gross margins, flat inventory through an explosive revenue ramp (no channel stuffing), $4.75B debt repaid to a net-cash balance sheet, 5.3x forward P/E with PEG of 0.16, and trend regime intact (price > rising 50-day SMA at $951.59 > rising 200-day SMA at $673.15, RSI 59.7 with no divergence, contracting ATR ~$41.80). The July crash from ~$1,032 to $737 was fully reclaimed, showing the uptrend absorbed a 28% shock. But the bear case is credible on two fronts: (1) the ~5x receivables build to $26.9B — growing faster than revenue — with TTM FCF of only $7.6B against $50.5B net income, plus Marvell/Nvidia AI-slowdown headlines, demands active monitoring; and (2) cyclicals at cycle peaks trade at small forward multiples because estimates mean-revert, a risk amplified by capex ramping from $2.9B to $7.8B. The July 28% drawdown also proved stops on a 2.2-beta memory name gap through levels. The net judgment: own MU, but pay for the exposure slowly. The staged-entry architecture is the strongest construct — entering only on pullbacks forces the market to confirm the structure before capital is deployed, bounding regret both ways: if nothing fills and MU rips through $1,108.72 toward $1,255, a small add on confirmed breakout volume is acceptable (dogma is not risk management); if the cycle cracks, we are at half weight with a defined regime-level exit at $887.61. Reassess down to Hold/Underweight on sequential margin decline or accelerating working-capital deterioration; add to full Overweight only as tranches fill above $952 and the December print validates the cycle with real margin and receivables data.
+
+**Price Target**: 1255.0
+
+**Time Horizon**: 3-6 months
+
+<!-- ENTRY_END -->
+
